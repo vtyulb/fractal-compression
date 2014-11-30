@@ -6,14 +6,15 @@ int compress(char *input, char *output, int s) {
     BMP image;
     image.ReadFromFile(input);
 
-    FractalCompressor c(&image, output);
-    c.compress();
+    FractalCompressor c;
+    c.compress(&image, output);
 
     return 0;
 }
 
 int decompress(char *input, char *output) {
-
+    FractalCompressor c;
+    c.decompress(input, output);
 }
 
 int main(int argc, char *argv[])

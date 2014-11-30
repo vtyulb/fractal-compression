@@ -9,13 +9,13 @@ struct Transform {
     unsigned int quad:1;
     unsigned int x:8;
     unsigned int y:8;
-    unsigned int bright:8;
-    unsigned int nothing:4;
+    int bright:9;
+    unsigned int nothing:3;
 };
 
-struct header {
-    unsigned int size:10;
-    unsigned int n:22;
+struct Header {
+    unsigned int size:16;
+    unsigned int n:16;
 };
 
 BMP *generateSRC(int size);
