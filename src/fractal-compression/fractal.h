@@ -18,6 +18,8 @@ struct Header {
     unsigned int n:16;
 };
 
+const double BRIGHT_COMPRESS = 0.75;
+
 BMP *generateSRC(int size);
 
 #endif // FRACTAL_H

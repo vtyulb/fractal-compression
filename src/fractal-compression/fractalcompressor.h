@@ -24,7 +24,7 @@ class FractalCompressor {
         BMP *selectImage(int x, int y, int size);
 
         BMP *transform(BMP *im, int mir, int ang);
-        void applyBright(BMP *n, double bright);
+        void applyBright(BMP *n, int bright);
 
         void deQuadro(int x1, int y1, int x2, int y2);
 
