@@ -15,6 +15,8 @@ int compress(char *input, char *output, int s) {
 int decompress(char *input, char *output) {
     FractalCompressor c;
     c.decompress(input, output);
+
+    return 0;
 }
 
 int main(int argc, char *argv[])

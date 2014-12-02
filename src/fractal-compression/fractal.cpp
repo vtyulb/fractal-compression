@@ -7,9 +7,9 @@ BMP *generateSRC(int size) {
     for (int i = 0; i < size; i++)
         for (int j = 0; j < size; j++) {
             RGBApixel pix;
-            pix.Blue = 50;
-            pix.Green = 50;
-            pix.Red = 50;
+            pix.Blue = 128;
+            pix.Green = 128;
+            pix.Red = 128;
             res->SetPixel(i, j, pix);
         }
 

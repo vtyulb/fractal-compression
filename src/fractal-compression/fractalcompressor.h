@@ -29,6 +29,13 @@ class FractalCompressor {
         void deQuadro(int x1, int y1, int x2, int y2);
 
         double diff(BMP *src, BMP *dst);
+
+        void fastClear(BMP *src);
+
+        void pre(BMP *src);
+        void post(BMP *src);
+
+        int nrm(int);
 };
 
 #endif // FRACTALCOMPRESSOR_H
