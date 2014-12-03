@@ -4,6 +4,7 @@
 #include <EasyBMP.h>
 #include <stdio.h>
 #include <fractal.h>
+#include <vector>
 
 class FractalCompressor {
     public:
@@ -17,6 +18,7 @@ class FractalCompressor {
         int quality;
 
         Transform *t;
+        std::vector<char> data;
 
         void nativeCompress(int x1, int y1, int x2, int y2);
         bool tryWin(int x1, int y1, int x2, int y2);

@@ -19,6 +19,7 @@ struct Header {
 };
 
 const double BRIGHT_COMPRESS = 0.75;
+const int MIN_BLOCK = 2;
 
 BMP *generateSRC(int size);
 
