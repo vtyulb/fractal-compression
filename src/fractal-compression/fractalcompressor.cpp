@@ -12,9 +12,9 @@ void FractalCompressor::compress(BMP *im, char *output) {
     image = im;
     quality = 10;
 
-//    pre(im);
-//    post(im);
-//    im->WriteToFile("testfile.bmp");
+    pre(im);
+    post(im);
+    im->WriteToFile("testfile.bmp");
 
     Header h;
     h.size = im->TellHeight();
@@ -42,13 +42,13 @@ void FractalCompressor::compress(BMP *im, char *output) {
     fclose(out);
 }
 
-void FractalCompressor::post(BMP *src) {return;
+void FractalCompressor::post(BMP *src) {
     for (int i = 0; i < src->TellHeight(); i++)
         for (int j = 0; j < src->TellWidth(); j++) {
             RGBApixel pix = src->GetPixel(i, j);
-            int r = pix.Red + (pix.Blue - 128) * 1.14;
-            int g = pix.Red - (pix.Green - 128) * 0.34414 - 0.71414 * (pix.Blue - 128);
-            int b = pix.Red + 1.772 * (pix.Green - 128);
+            int r = pix.Red + (pix.Blue - 128) * 1.14075;
+            int g = pix.Red - (pix.Green - 128) * 0.3455 - 0.7169 * (pix.Blue - 128);
+            int b = pix.Red + 1.779 * (pix.Green - 128);
             pix.Red = nrm(r);
             pix.Green = nrm(g);
             pix.Blue = nrm(b);
@@ -56,13 +56,13 @@ void FractalCompressor::post(BMP *src) {return;
         }
 }
 
-void FractalCompressor::pre(BMP *src) {return;
+void FractalCompressor::pre(BMP *src) {
     for (int i = 0; i < src->TellHeight(); i++)
         for (int j = 0; j < src->TellWidth(); j++) {
             RGBApixel pix = src->GetPixel(i, j);
             int y = pix.Red * 0.299 + pix.Green * 0.587 + pix.Blue * 0.114;
-            int u = pix.Red * 0.5 - pix.Green * 0.4187 - pix.Blue * 0.0813 + 128;
-            int v = pix.Red * 0.1687 - 0.3313 * pix.Green + pix.Blue * 0.5 + 128;
+            int u = pix.Red * (-0.169) - pix.Green * 0.332 + pix.Blue * 0.5 + 128;
+            int v = pix.Red * 0.5 - 0.419 * pix.Green - pix.Blue * 0.0813 + 128;
             pix.Red = nrm(y);
             pix.Green = nrm(u);
             pix.Blue = nrm(v);
