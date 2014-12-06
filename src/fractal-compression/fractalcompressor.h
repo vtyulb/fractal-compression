@@ -9,12 +9,16 @@
 class FractalCompressor {
     public:
         FractalCompressor();
-        void compress(BMP *image, char *output);
+        void compress(BMP *image, char *output, int q);
         void decompress(char *input, char *output);
 
     private:
         FILE *out;
+
         BMP *image;
+        Matrix main;
+        Matrix first, second;
+
         int quality;
 
         Transform *t;
@@ -22,11 +26,13 @@ class FractalCompressor {
 
         void nativeCompress(int x1, int y1, int x2, int y2);
         bool tryWin(int x1, int y1, int x2, int y2);
-        int select(RGBApixel);
+        inline int select(RGBApixel);
         BMP *selectImage(int x, int y, int size);
 
+        void selectMatrix(Matrix &m, int x1, int y1, int x2, int y2);
+
         BMP *transform(BMP *im, int mir, int ang);
-        void applyBright(BMP *n, int bright);
+        void applyBright(BMP *n, double bright, int offset);
 
         void deQuadro(int x1, int y1, int x2, int y2);
 
