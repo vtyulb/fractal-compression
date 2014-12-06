@@ -25,7 +25,7 @@ struct Transform {
     unsigned int quad:1;
     unsigned int x:8;
     unsigned int y:8;
-    double p;
+    unsigned int p:12;
     signed char q;
 };
 
@@ -36,6 +36,7 @@ struct Header {
 
 const int MIN_BLOCK = 2;
 const int ITERATIONS = 50;
+const double DIV = 32.0;
 
 BMP *generateSRC(int size);
 

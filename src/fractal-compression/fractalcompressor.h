@@ -43,7 +43,7 @@ class FractalCompressor {
         void pre(BMP *src);
         void post(BMP *src);
 
-        int nrm(int);
+        unsigned char nrm(int);
 };
 
 #endif // FRACTALCOMPRESSOR_H

@@ -10,12 +10,7 @@ FractalCompressor::FractalCompressor() { }
 void FractalCompressor::compress(BMP *im, char *output, int q) {
     out = fopen(output, "wb");
     image = im;
-//    quality = 1050 - q * 10;
-    quality = 100;
-
-//    pre(im);
-//    post(im);
-//    im->WriteToFile("testfile.bmp");
+    quality = 316 - 3.0 * q;
 
     Header h;
     h.size = im->TellHeight();
@@ -34,7 +29,7 @@ void FractalCompressor::post(BMP *src) {
     for (int i = 0; i < src->TellHeight(); i++)
         for (int j = 0; j < src->TellWidth(); j++) {
             RGBApixel pix = src->GetPixel(i, j);
-            int r = pix.Red + (pix.Blue - 128) * 1.14075 + 10;
+            int r = pix.Red + (pix.Blue - 128) * 1.14075;
             int g = pix.Red - (pix.Green - 128) * 0.3455 - 0.7169 * (pix.Blue - 128);
             int b = pix.Red + 1.779 * (pix.Green - 128);
             pix.Red = nrm(r);
@@ -154,7 +149,7 @@ void FractalCompressor::deQuadro(int x1, int y1, int x2, int y2) {
                 int size = nx2 - nx1;
                 BMP *im = selectImage(t->x, t->y, (x2 - x1));
 //                im->WriteToFile("tmp.bmp");
-                applyBright(im, t->p, t->q);
+                applyBright(im, t->p / DIV, t->q);
 //                im->WriteToFile("tmp-ap.bmp");
 
                 for (int i = 0; i < size; i++)
@@ -183,9 +178,6 @@ bool FractalCompressor::tryWin(int x1, int y1, int x2, int y2) {
         return true;
     }
 
-    if (x1 == 64 && x2 == 80 && y1 == 64 && y2 == 80)
-        main[0][0] = -64;
-
     double best = 1e+100;
     int step = (x2 - x1) * 2;
     Transform res;
@@ -203,8 +195,8 @@ bool FractalCompressor::tryWin(int x1, int y1, int x2, int y2) {
 
 //    for (int mir = 0; mir < 2; mir++)
 //        for (int ang = 0; ang < 4; ang++)
-            for (int i = 0; i < image->TellHeight() - step + 1; i += step)
-                for (int j = 0; j < image->TellWidth() - step + 1; j += step) {
+            for (int i = 0; i < image->TellHeight() - step + 1; i += 2)
+                for (int j = 0; j < image->TellWidth() - step + 1; j += 2) {
 
                     for (int k = 0; k < step / 2; k++)
                         for (int u = 0; u < step / 2; u++)
@@ -224,12 +216,15 @@ bool FractalCompressor::tryWin(int x1, int y1, int x2, int y2) {
                         for (int j = 0; j < step / 2; j++)
                             ab += first[i][j] * second[i][j];
 
-                    double u = (firstDivision) ? ((step / 2) * (step / 2) * double(ab) - secondSum * firstSum) / firstDivision : 0;
+                    int u = ((firstDivision) ? ((step / 2) * (step / 2) * double(ab) - secondSum * firstSum) / firstDivision : 0) * DIV;
+                    if (u > DIV * DIV || u < 0)
+                        continue;
+
                     signed char v = (secondSum - u * firstSum) / (step / 2) / (step / 2);
 
                     for (int i = 0; i < step / 2; i++)
                         for (int j = 0; j < step / 2; j++)
-                            second[i][j] = second[i][j] * u + v;
+                            second[i][j] = nrm(second[i][j] * u / DIV + v);
 
                     double d = 0;
                     for (int i = 0; i < step / 2; i++)
@@ -240,9 +235,6 @@ bool FractalCompressor::tryWin(int x1, int y1, int x2, int y2) {
 
                     if (d < best)
                         if (d < quality || (x2 - x1 == MIN_BLOCK)) {
-//                            if (first[0][0] != -64)
-//                                u = u + 0.0001;
-
                             best = d;
                             res.angle = 0;// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                             res.mirror = 0;// !!!!!!!!!!!!!!!1111111111111111111!!!!!!!!!!!111111111111111111
@@ -329,7 +321,11 @@ void FractalCompressor::fastClear(BMP *src) {
         }
 }
 
-int FractalCompressor::nrm(int a) {
-    return char(a);
+unsigned char FractalCompressor::nrm(int a) {
+    if (a > 255)
+        a -= 256;
+    if (a < 0)
+        a += 256;
+    return a;
 //    return min(max(a, 0), 255);
 }
