@@ -9,7 +9,7 @@
 class FractalCompressor {
     public:
         FractalCompressor();
-        void compress(BMP *image, char *output, int q);
+        void compress(BMP *image, char *output, int q, int force);
         void decompress(char *input, char *output);
 
     private:
@@ -20,9 +20,9 @@ class FractalCompressor {
         Matrix first, second;
 
         int quality;
+        int forceLevel;
 
         Transform *t;
-        std::vector<char> data;
 
         void nativeCompress(int x1, int y1, int x2, int y2);
         bool tryWin(int x1, int y1, int x2, int y2);
@@ -43,7 +43,8 @@ class FractalCompressor {
         void pre(BMP *src);
         void post(BMP *src);
 
-        unsigned char nrm(int);
+        inline unsigned char nrm(int);
+        inline double conf(int);
 };
 
 #endif // FRACTALCOMPRESSOR_H

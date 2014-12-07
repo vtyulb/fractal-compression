@@ -18,7 +18,12 @@ TEMPLATE = app
 SOURCES += main.cpp \
     EasyBMP.cpp \
     fractalcompressor.cpp \
-    fractal.cpp
+    fractal.cpp \
+    ar_decoder.cpp \
+    ar_encoder.cpp \
+    ar_normal_model.cpp \
+    ar_ppm_model.cpp \
+    bwt.cpp
 
 HEADERS += \
     EasyBMP_DataStructures.h \
@@ -26,4 +31,10 @@ HEADERS += \
     EasyBMP.h \
     EasyBMP_BMP.h \
     fractalcompressor.h \
-    fractal.h
+    fractal.h \
+    ar_decoder.h \
+    ar_model.h \
+    ar_encoder.h \
+    ar_normal_model.h \
+    ar_ppm_model.h \
+    bwt.h

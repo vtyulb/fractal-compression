@@ -20,12 +20,12 @@ struct Matrix {
 };
 
 struct Transform {
-    unsigned int mirror:1;
-    unsigned int angle:2;
+//    unsigned int mirror:1;
+//    unsigned int angle:2;
     unsigned int quad:1;
-    unsigned int x:8;
-    unsigned int y:8;
-    unsigned int p:12;
+    unsigned int x:9;
+    unsigned int y:9;
+    signed int p:5;
     signed char q;
 };
 
@@ -36,7 +36,9 @@ struct Header {
 
 const int MIN_BLOCK = 2;
 const int ITERATIONS = 50;
-const double DIV = 32.0;
+const int DIV = 8;
+
+typedef unsigned char uchar;
 
 BMP *generateSRC(int size);
 
